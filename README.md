@@ -1,9 +1,8 @@
 c-nodes-example
 ===============
 
-Erlang C Nodes example
+Updated simple Elixir/Erlang C Nodes example. The server `cnode_ei_s2.c` has been updated to utilize the `ei_***` api. 
 
-**Note**: Change hostname to alpha.example.com and add domain to `/etc/hosts` before testing.
 0. Test Elixir C Node server 
 
 ```shell
