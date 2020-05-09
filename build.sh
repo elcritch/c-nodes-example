@@ -21,6 +21,12 @@ gcc -o cserver2 \
 	complex.c cnode_s2.c \
 	-lerl_interface -lei 
 
+gcc -o cserver_ei3 \
+	-Wno-implicit-function-declaration \
+	-I$INCLUDE_DIR -L$LIB_DIR \
+	complex.c cnode_ei_s2.c \
+	-lerl_interface -lei 
+
 gcc -o cclient \
 	-Wno-implicit-function-declaration \
 	-Wno-deprecated-declarations \
