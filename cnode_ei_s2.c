@@ -96,11 +96,18 @@ int main(int argc, char **argv)
         int version;
         int arity;
         char msg_atom[MAXATOMLEN + 1] = {0};
+        char *msg_print = malloc(1024);
         long msg_arg;
         erlang_pid pid;
 
-        fprintf(stdout, "erl_reg_send: %d\n", got);
+        fprintf(stdout, "erl_reg_send: msgtype: %ld buff: %p idx: %d bufsz: %d \n",
+                          info.msgtype, emsg.buff, emsg.index, emsg.buffsz);
 
+        emsg.index = 0;
+        ei_s_print_term(&msg_print , emsg.buff, &emsg.index);
+        fprintf(stdout, "term: `%s`\n", msg_print);
+
+        emsg.index = 0;
         if (ei_decode_version(emsg.buff, &emsg.index, &version) < 0) {
           fprintf(stderr, "ignoring malformed message (bad version: %d)\n", version);
           return -1;
@@ -147,7 +154,10 @@ int main(int argc, char **argv)
           fprintf(stderr, "other message: %s\n", msg_atom);
         }
 
-        set_node_reply(&x_out, msg_arg);
+        // set_node_reply(&x_out, msg_arg);
+
+        x_out.index = 0;
+        ei_x_format(&x_out, "{cnode,~i}", msg_arg);
         ei_send(fd, &info.from, x_out.buff, x_out.index);
 
         // erl_free_term(argp);
